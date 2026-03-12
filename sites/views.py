@@ -41,6 +41,18 @@ class NewsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = "sites.change_news"
     success_url = reverse_lazy("news_list")
 
+class PublicationView(ListView):
+    model = Post
+    template_name = 'sites/publication.html'
+    context_object_name = 'publication'
+
+    def get_queryset(self):
+        return Post.objects.filter(category='publication')
+
+class NewsView(ListView):
+    model = News
+    template_name = 'sites/news.html'
+    context_object_name = 'news'
 
 class NewsDetailView(DetailView):
     model = News

@@ -1,7 +1,35 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Контакты{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-  <h2>Контакты</h2>
-  <p>Контактная информация.</p>
-</div>
+<section class="section">
+    <div class="section-head">
+        <div>
+            <p class="section-kicker">Обратная связь</p>
+            <h2 class="section-title">Контакты</h2>
+            <p class="section-text">
+                Контактные данные, график работы и информация для обращений посетителей.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>Основная информация</h3>
+            <p><strong>Наименование:</strong> РГП «Госэкспертиза»</p>
+            <p><strong>Адрес:</strong> г. Астана, ул. Примерная, 10</p>
+            <p><strong>Телефон:</strong> +7 (7172) 00-00-00</p>
+            <p><strong>Email:</strong> info@gosexpertiza.kz</p>
+        </div>
+
+        <div class="card">
+            <h3>График работы</h3>
+            <p><strong>Понедельник – Пятница:</strong> 09:00 – 18:30</p>
+            <p><strong>Обеденный перерыв:</strong> 13:00 – 14:30</p>
+            <p><strong>Суббота, воскресенье:</strong> выходной</p>
+            <p><strong>Приём посетителей:</strong> по установленному графику</p>
+        </div>
+    </div>
+</section>
 {% endblock %}

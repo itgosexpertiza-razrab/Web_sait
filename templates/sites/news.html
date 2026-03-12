@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Новости{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-head">
+        <div>
+            <p class="section-kicker">Информационный раздел</p>
+            <h2 class="section-title">Новости</h2>
+            <p class="section-text">
+                Официальные новости, объявления и информационные сообщения предприятия.
+            </p>
+        </div>
+    </div>
+
+    <div class="news-list">
+        {% for n in news %}
+            <article class="news-item">
+                {% if n.image %}
+                    <div style="margin-bottom:16px;">
+                        <img src="{{ n.image.url }}" alt="{{ n.title }}" style="width:100%; border-radius:16px; object-fit:cover; max-height:320px;">
+                    </div>
+                {% endif %}
+
+                <div class="news-date">{{ n.date }}</div>
+                <h3>{{ n.title }}</h3>
+                <p>{{ n.teaser }}</p>
+                <a class="news-link" href="{% url 'news_detail' n.pk %}">
+                    Подробнее
+                    <span>→</span>
+                </a>
+            </article>
+        {% empty %}
+            <article class="news-item">
+                <div class="news-date">Информация</div>
+                <h3>Новости пока не опубликованы</h3>
+                <p>После добавления материалов здесь будут отображаться все новости предприятия.</p>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
