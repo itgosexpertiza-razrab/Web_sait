@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<style>
+.hero-section {
+    background: var(--bg) center/cover no-repeat;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    color: white;
+}
+.text-shadow {
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+</style>
+
+<style>
+.help-wrapper {
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+}
+
+.help-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 38%;
+    height: 100%;
+    background: url("{% static 'img/help.jpg' %}") center / cover no-repeat;
+    filter: grayscale(100%);
+}
+
+.help-content {
+    position: relative;
+    margin-left: 35%;
+    padding: 2.5rem;
+    background: white;
+}
+
+/* адаптив */
+@media (max-width: 992px) {
+    .help-bg {
+        position: relative;
+        width: 100%;
+        height: 220px;
+    }
+
+    .help-content {
+        margin-left: 0;
+    }
+}
+</style>
+
+<div class="hero-section"
+     style="--bg: url('{% static 'img/hero.jpg' %}');">
+    <div class="container">
+        <h1 class="fw-bold display-5 text-shadow">
+            Государственная<br>вневедомственная<br>экспертиза проектов
+        </h1>
+        <p class="lead mt-2 text-shadow">РГП «Госэкспертиза»</p>
+    </div>
+</div>
+
+
+<!-- В ПОМОЩЬ ЗАКАЗЧИКАМ -->
+<div class="container my-5">
+    <div class="help-wrapper bg-white shadow rounded">
+
+        <!-- ФОН -->
+        <div class="help-bg"></div>
+
+        <!-- КОНТЕНТ -->
+        <div class="help-content">
+
+            <h2 class="fw-bold mb-4">
+                В ПОМОЩЬ ЗАКАЗЧИКАМ ГОСЭКСПЕРТИЗЫ
+            </h2>
+
+            <ul class="list-unstyled help-list">
+                <li class="mb-3">
+                    <i class="fa fa-clock-o text-primary me-2 fs-5"></i>
+                    ГРАФИК РАБОТЫ РГП И ПОРЯДОК ПРИЁМА ПОСЕТИТЕЛЕЙ
+                </li>
+                <li class="mb-3">
+                    <i class="fa fa-calendar text-primary me-2 fs-5"></i>
+                    ПОРЯДОК ПРОВЕДЕНИЯ ЭКСПЕРТИЗЫ
+                </li>
+                <li class="mb-3">
+                    <i class="fa fa-file-text text-primary me-2 fs-5"></i>
+                    ПЕРЕЧЕНЬ ДОКУМЕНТОВ ДЛЯ ПРЕДСТАВЛЕНИЯ ТЭО И ПСД
+                </li>
+                <li class="mb-3">
+                    <i class="fa fa-pencil-square-o text-primary me-2 fs-5"></i>
+                    ТИПОВАЯ ФОРМА ДОГОВОРА
+                </li>
+                <li class="mb-3">
+                    <i class="fa fa-envelope text-primary me-2 fs-5"></i>
+                    ЗАЯВЛЕНИЯ И ПРЕДЛОЖЕНИЯ, ТЕЛЕФОН ДОВЕРИЯ
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ПОСЛЕДНИЕ НОВОСТИ -->
+<div class="container my-5">
+
+    <h2 class="fw-bold mb-4">ПОСЛЕДНИЕ НОВОСТИ ПРЕДПРИЯТИЯ</h2>
+    <hr class="mb-4" style="border-top:3px solid #0099cc; width:120px;">
+
+    <div class="row g-4">
+
+        <!-- Новость 1 -->
+            {% for n in news %}
+            <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                {% if n.image %}
+                <img src="{{ n.image.url }}" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                <span class="text-muted small">{{ n.date }}</span>
+                <h5 class="fw-bold">{{ n.title }}</h5>
+                <p>{{ n.teaser }}</p>
+                <a href="{% url 'news_detail' n.id %}" class="btn btn-sm btn-outline-primary">Подробнее</a>
+                </div>
+            </div>
+            </div>
+            {% endfor %}
+
+        <!-- Новость 2 -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'img/new2.jpg' %}" class="card-img-top" alt="">
+                <div class="card-body">
+                    <span class="text-muted small d-block mb-2">2025-11-19</span>
+                    <h5 class="fw-bold mb-3">РГП «Госэкспертиза» провело совещание…</h5>
+                    <p class="text-muted">19 ноября состоялось заседание…</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Новость 3 -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'img/news3.jpeg' %}" class="card-img-top" alt="">
+                <div class="card-body">
+                    <span class="text-muted small d-block mb-2">2025-11-18</span>
+                    <h5 class="fw-bold mb-3">Выдано заключение…</h5>
+                    <p class="text-muted">РГП сообщает о выдаче заключения…</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ВОПРОСЫ И ОТВЕТЫ -->
+<div class="container my-5">
+
+    <h2 class="fw-bold mb-4">ВОПРОСЫ И ОТВЕТЫ</h2>
+    <hr class="mb-4" style="border-top:3px solid #0099cc; width:120px;">
+
+    <div class="list-group">
+
+        <div class="list-group-item py-3"><i class="fa fa-question-circle text-primary me-2"></i>Добрый день, подскажите пожалуйста…</div>
+        <div class="list-group-item py-3"><i class="fa fa-question-circle text-primary me-2"></i>Здравствуйте. У меня такой вопрос…</div>
+        <div class="list-group-item py-3"><i class="fa fa-question-circle text-primary me-2"></i>Нужно ли загружать документы…</div>
+        <div class="list-group-item py-3"><i class="fa fa-question-circle text-primary me-2"></i>Нужно ли прикладывать сертификаты…</div>
+        <div class="list-group-item py-3"><i class="fa fa-question-circle text-primary me-2"></i>Просим разъяснить ситуацию…</div>
+
+    </div>
+
+    <div class="d-flex justify-content-between mt-3">
+        <a class="btn btn-info text-white px-4">ЗАДАТЬ ВОПРОС</a>
+        <a href="#" class="text-primary fw-bold">ВСЕ ВОПРОСЫ</a>
+    </div>
+
+</div>
+
+
+<!-- FOOTER BIG -->
+<div class="footer-big py-5" style="background:#003a60; color:white;">
+    <div class="container">
+
+        <h2 class="text-center text-white mb-4 fw-bold">ЕСТЬ ВОПРОСЫ? СВЯЖИТЕСЬ С НАМИ!</h2>
+
+        <div class="text-center mb-5">
+            <a class="btn btn-info text-white px-5 py-2">СВЯЗАТЬСЯ</a>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3 mb-4">
+                <img src="{% static 'img/logo-footer.png' %}" class="mb-3" alt="">
+                <p>РГП «Госэкспертиза» — государственное предприятие…</p>
+                <img src="{% static 'img/logo-footer.png' %}" class="my-2">
+                <img src="{% static 'img/logo-footer.png' %}" class="my-2">
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold">Комплексная экспертиза</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">История</a></li>
+                    <li><a href="#" class="text-white">Руководство</a></li>
+                    <li><a href="#" class="text-white">График приема</a></li>
+                    <li><a href="#" class="text-white">Результаты</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold">В помощь заказчикам</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Документы</a></li>
+                    <li><a href="#" class="text-white">Порядок</a></li>
+                    <li><a href="#" class="text-white">Экспертиза ТЭО</a></li>
+                    <li><a href="#" class="text-white">Электронный договор</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <h5 class="fw-bold">Другие разделы</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Кадровая политика</a></li>
+                    <li><a href="#" class="text-white">СМК</a></li>
+                    <li><a href="#" class="text-white">Социальная сфера</a></li>
+                    <li><a href="#" class="text-white">Электронный приём ПСД</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- FOOTER SMALL -->
+<div class="text-center py-3" style="background:#002642; color:white;">
+    © gosexpertiza.kz 2025 (демо)
+</div>
+
+{% endblock %}

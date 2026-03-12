@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Госэкспертиза{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        .top-bar {
+            background: #003a60;
+            color: white;
+            font-size: 13px;
+            padding: 6px 0;
+        }
+        .top-bar a {
+            color: white;
+            margin-left: 10px;
+        }
+        .header-main {
+            background: white;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .header-menu {
+            background: #003a60;
+        }
+        .header-menu a {
+            color: white !important;
+            padding: 10px 15px;
+            display:block;
+        }
+        .header-menu a:hover {
+            background: #005c90;
+        }
+        .text-shadow {
+            text-shadow: 0 0 4px rgba(0,0,0,0.6);
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            transition: 0.2s;
+        }
+        .footer-big ul li a:hover {
+            text-decoration: underline;
+        }
+</style>
+    </style>
+
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+<!-- ВЕРХНЯЯ ПАНЕЛЬ -->
+<div class="top-bar">
+    <div class="container d-flex justify-content-between">
+        <div>
+            <i class="fa fa-facebook"></i>
+            <i class="fa fa-youtube ms-2"></i>
+            <i class="fa fa-twitter ms-2"></i>
+            <div class="text-end text-white">
+            {% if user.is_authenticated %}
+                <span class="me-2">
+                👤 {{ user.username }}
+                </span>
+                <a href="{% url 'logout' %}" class="text-white text-decoration-underline">
+                Выйти
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-white text-decoration-underline">
+                Вход в систему
+                </a>
+            {% endif %}
+            </div>
+        </div>
+
+        <div>
+            Время приёма посетителей с 09:00 до 12:30 часов
+            <span class="ms-3"><a href="#">KAZ</a></span>
+            <span><a href="#">RUS</a></span>
+            <span><a href="#">ENG</a></span>
+        </div>
+    </div>
+</div>
+
+<!-- ЛОГО, ТЕЛЕФОН, EMAIL -->
+<div class="header-main">
+    <div class="container d-flex justify-content-between align-items-center">
+
+        <div class="d-flex align-items-center">
+            <img src="https://via.placeholder.com/100x100?text=Logo"
+                 class="me-3" alt="">
+            <div style="font-size:14px;">
+                Республиканское государственное предприятие на праве<br>
+                хозяйственного ведения «Государственная вневедомственная<br>
+                экспертиза проектов»
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center text-end">
+            <div class="me-4">
+                <div><b>Телефон</b></div>
+                <div>+7 (7172) 57-44-84</div>
+            </div>
+            <div class="me-4">
+                <div><b>E-mail</b></div>
+                <div>gosexpertiza@example.kz</div>
+            </div>
+            <a class="btn btn-info text-white px-4">Подать ПСД</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- МЕНЮ -->
+<nav class="header-menu">
+    <div class="container d-flex">
+        <a href="{% url 'news_list' %}">Новости</a>
+        <a href="{% url 'publication_list' %}">Публикации</a>
+        <a href="{% url 'bim_list' %}">BIM</a>
+        <a href="{% url 'faq_list' %}">Вопрос–ответ</a>
+        <a href="{% url 'procurement' %}">Закупки</a>
+        <a href="{% url 'contacts' %}">Контакты</a>
+        <a href="#">Картограмма</a>
+    </div>
+</nav>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+{% block content %}{% endblock %}
+
+<!-- ФУТЕР -->
+<footer class="mt-5 p-3 text-center bg-dark text-white">
+    © 2025 Госэкспертиза. Демонстрационная версия.
+</footer>
+
+</body>
+</html>

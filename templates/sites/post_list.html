@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="fw-bold mb-4">{{ posts.0.get_category_display }}</h2>
+    <hr>
+
+    {% for post in posts %}
+    <div class="row mb-4">
+
+        {% if post.image %}
+        <div class="col-md-3">
+            <img src="{{ post.image.url }}" class="img-fluid rounded">
+        </div>
+        {% endif %}
+
+        <div class="col-md-9">
+            <p class="text-muted">{{ post.date }}</p>
+            <h5><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
+            <p>{{ post.intro }}</p>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
