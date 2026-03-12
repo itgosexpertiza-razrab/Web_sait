@@ -1,7 +1,32 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}Вопросы и ответы{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-  <h2>Вопрос–ответ</h2>
-  <p>Раздел в разработке.</p>
-</div>
+<section class="section">
+    <div class="section-head">
+        <div>
+            <p class="section-kicker">Разъяснения</p>
+            <h2 class="section-title">Вопросы и ответы</h2>
+            <p class="section-text">
+                Раздел для типовых вопросов по порядку проведения экспертизы,
+                требованиям к документации и взаимодействию с заказчиками.
+            </p>
+        </div>
+    </div>
+
+    <div class="news-list">
+        {% for item in help_items %}
+            <article class="news-item">
+                <h3>{{ item.question }}</h3>
+                <p>{{ item.answer }}</p>
+            </article>
+        {% empty %}
+            <article class="news-item">
+                <h3>Раздел пока не заполнен</h3>
+                <p>После добавления записей здесь будут отображаться вопросы и ответы.</p>
+            </article>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

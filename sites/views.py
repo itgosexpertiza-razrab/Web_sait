@@ -1,69 +1,63 @@
-from django.views.generic import TemplateView, ListView, DetailView
-from .models import News, Post, HelpItem
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
+
+from .models import News, Post, HelpItem
 from .forms import PostImageForm
+
 
 # =========================
 # Главная
 # =========================
 class HomeView(TemplateView):
-    template_name = 'sites/home.html'
+    template_name = "sites/home.html"
 
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx['news'] = News.objects.all()[:10]
-        ctx['help_items'] = HelpItem.objects.all()
-        return ctx
+        context = super().get_context_data(**kwargs)
+        context["news"] = News.objects.order_by("-date")[:10]
+        context["help_items"] = HelpItem.objects.all()
+        return context
 
 
 # =========================
-# Новости (отдельная модель)
+# Новости
 # =========================
 class NewsListView(ListView):
     model = News
-    template_name = 'sites/news_list.html'
-    context_object_name = 'news'
+    template_name = "sites/news.html"
+    context_object_name = "news"
     paginate_by = 10
+    ordering = ["-date"]
 
-class NewsCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    model = News
-    fields = ["title", "date", "content", "image"]
-    template_name = "sites/news_form.html"
-    permission_required = "sites.add_news"
-    success_url = reverse_lazy("news_list")
-
-class NewsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = News
-    fields = ["title", "date", "content", "image"]
-    template_name = "sites/news_form.html"
-    permission_required = "sites.change_news"
-    success_url = reverse_lazy("news_list")
-
-class PublicationView(ListView):
-    model = Post
-    template_name = 'sites/publication.html'
-    context_object_name = 'publication'
-
-    def get_queryset(self):
-        return Post.objects.filter(category='publication')
-
-class NewsView(ListView):
-    model = News
-    template_name = 'sites/news.html'
-    context_object_name = 'news'
 
 class NewsDetailView(DetailView):
     model = News
-    template_name = 'sites/news_detail.html'
-    context_object_name = 'news'
+    template_name = "sites/news_detail.html"
+    context_object_name = "news"
+
+
+class NewsCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = News
+    fields = ["title", "date", "teaser", "content", "image"]
+    template_name = "sites/news_form.html"
+    permission_required = "sites.add_news"
+    success_url = reverse_lazy("news")
+
+
+class NewsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = News
+    fields = ["title", "date", "teaser", "content", "image"]
+    template_name = "sites/news_form.html"
+    permission_required = "sites.change_news"
+    success_url = reverse_lazy("news")
+
 
 class NewsDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = News
     template_name = "sites/news_confirm_delete.html"
     permission_required = "sites.delete_news"
-    success_url = reverse_lazy("news_list")
+    success_url = reverse_lazy("news")
+
 
 # =========================
 # Универсальные Post
@@ -72,22 +66,33 @@ class PostListView(ListView):
     model = Post
     template_name = "sites/post_list.html"
     context_object_name = "posts"
+    paginate_by = 10
     category = None
 
     def get_queryset(self):
-        return Post.objects.filter(category=self.category)
+        queryset = Post.objects.all()
+
+        if self.category:
+            queryset = queryset.filter(category=self.category)
+
+        return queryset.order_by("-date")
 
 
 class PostDetailView(DetailView):
     model = Post
     template_name = "sites/post_detail.html"
+    context_object_name = "post"
 
 
-class PublicationList(PostListView):
+class PublicationListView(PostListView):
+    template_name = "sites/publication.html"
+    context_object_name = "posts"
     category = "publication"
 
 
-class BIMList(PostListView):
+class BIMListView(PostListView):
+    template_name = "sites/bim.html"
+    context_object_name = "posts"
     category = "bim"
 
 
@@ -96,6 +101,11 @@ class BIMList(PostListView):
 # =========================
 class FAQView(TemplateView):
     template_name = "sites/faq.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["help_items"] = HelpItem.objects.all()
+        return context
 
 
 class ProcurementView(TemplateView):
@@ -110,11 +120,18 @@ class MapView(TemplateView):
     template_name = "sites/map_placeholder.html"
 
 
-class PostImageUpdateView(
-    LoginRequiredMixin,
-    PermissionRequiredMixin,
-    UpdateView
-):
+class AntiCorruptionView(TemplateView):
+    template_name = "sites/anti_corruption.html"
+
+
+class AboutView(TemplateView):
+    template_name = "sites/about.html"
+
+
+# =========================
+# Редактирование изображения Post
+# =========================
+class PostImageUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Post
     form_class = PostImageForm
     template_name = "sites/post_image_edit.html"
