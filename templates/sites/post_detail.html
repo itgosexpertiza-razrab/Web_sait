@@ -2,6 +2,18 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
+
+
+{% if perms.sites.change_news %}
+    <div style="margin-bottom: 16px;">
+        <a class="news-link" href="{% url 'news_edit' news.pk %}">Редактировать</a>
+        |
+        <a class="news-link" href="{% url 'news_delete' news.pk %}">Удалить</a>
+    </div>
+{% endif %}
+
+
+
 {% block content %}
 <section class="section">
     <div class="section-head">

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Модерация комментариев{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-head">
+        <div>
+            <p class="section-kicker">Служебный раздел</p>
+            <h2 class="section-title">Модерация комментариев</h2>
+        </div>
+    </div>
+
+    <div class="news-list">
+        {% for comment in comments %}
+            <article class="news-item">
+                <div class="news-date">{{ comment.get_status_display }}</div>
+                <h3>{{ comment.author_name }}</h3>
+                <p>{{ comment.text }}</p>
+                <a class="news-link" href="{% url 'comment_moderation_edit' comment.pk %}">
+                    Открыть модерацию →
+                </a>
+            </article>
+        {% empty %}
+            <article class="news-item">
+                <h3>Комментариев нет</h3>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

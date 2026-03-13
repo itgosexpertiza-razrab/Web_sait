@@ -14,6 +14,16 @@
         </div>
     </div>
 
+
+
+    {% if perms.sites.add_news %}
+    <div style="margin-bottom: 20px;">
+        <a class="news-link" href="{% url 'news_add' %}">+ Добавить новость</a>
+    </div>
+    {% endif %}
+
+
+
     <div class="news-list">
         {% for n in news %}
             <article class="news-item">

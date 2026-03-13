@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Проверка комментария{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-head">
+        <div>
+            <p class="section-kicker">Модерация</p>
+            <h2 class="section-title">Проверка комментария</h2>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+        <h3>{{ object.author_name }}</h3>
+        <p>{{ object.text }}</p>
+    </div>
+
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

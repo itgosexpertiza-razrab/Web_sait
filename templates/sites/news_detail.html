@@ -19,5 +19,48 @@
 {% endif %}
 </div>
 
+<section class="section">
+    <div class="section-head">
+        <div>
+            <p class="section-kicker">Обсуждение</p>
+            <h2 class="section-title">Комментарии</h2>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 24px;">
+        <h3>Оставить комментарий</h3>
+        <form method="post" action="{% url 'news_comment_add' news.pk %}">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Отправить</button>
+        </form>
+        <p style="margin-top: 12px; color: #5f6f82;">
+            Комментарий будет опубликован после проверки модератором.
+        </p>
+    </div>
+
+    <div class="news-list">
+        {% for comment in comments %}
+            <article class="news-item">
+                <div class="news-date">{{ comment.created_at|date:"d.m.Y H:i" }}</div>
+                <h3>{{ comment.author_name }}</h3>
+                <p>{{ comment.text }}</p>
+
+                {% if comment.owner_reply %}
+                    <div class="card" style="margin-top: 14px;">
+                        <h3>Ответ сайта</h3>
+                        <p>{{ comment.owner_reply }}</p>
+                    </div>
+                {% endif %}
+            </article>
+        {% empty %}
+            <article class="news-item">
+                <h3>Комментариев пока нет</h3>
+                <p>Станьте первым, кто оставит комментарий.</p>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+
 
 {% endblock %}
